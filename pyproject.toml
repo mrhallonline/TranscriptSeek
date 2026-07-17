@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "transcriptseek"
+version = "0.1.0"
+description = "Local-first transcript research core for TranscriptSeek"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "argon2-cffi>=23.1",
+  "cryptography>=44",
+  "lxml>=5",
+  "numpy>=2",
+  "scikit-learn>=1.6",
+]
+
+[project.optional-dependencies]
+nlp = ["spacy>=3.8"]
+transcription = ["faster-whisper>=1.1"]
+dev = ["pytest>=8", "ruff>=0.9"]
+
+[project.scripts]
+transcriptseek-service = "transcriptseek.ipc:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/transcriptseek"]
+
+[tool.hatch.build]
+include = ["src/transcriptseek/**/*.py", "src/transcriptseek/schemas/*.xsd"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
